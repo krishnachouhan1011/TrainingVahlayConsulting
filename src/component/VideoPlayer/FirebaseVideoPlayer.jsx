@@ -14,9 +14,7 @@ import {
   Loader2,
   CheckCircle,
   Clock,
-  Sparkles,
-  Zap,
-  Activity
+  Sparkles
 } from "lucide-react";
 import {
   savePlaybackPosition,
@@ -80,14 +78,9 @@ const FirebaseVideoPlayer = ({
   const [playbackRate, setPlaybackRate] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Network, Preloader & Buffer Health States
+  // Network & UI States
   const [isLoading, setIsLoading] = useState(true);
   const [isBuffering, setIsBuffering] = useState(false);
-  const [bufferRunway, setBufferRunway] = useState(0); // Forward seconds buffered ahead
-  const [isPrebuffering, setIsPrebuffering] = useState(false);
-  const [prebufferProgress, setPrebufferProgress] = useState(0); // 0 - 100%
-  const [userWantsPlay, setUserWantsPlay] = useState(false);
-  const SAFETY_BUFFER_TARGET = 5; // Target 5-second buffer runway for guaranteed smooth playback
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showControls, setShowControls] = useState(true);
@@ -138,71 +131,20 @@ const FirebaseVideoPlayer = ({
     }
   }, [autoResume, lessonId, userId]);
 
-  // 3. Buffer Runway & Progress Calculation
-  const updateBufferRunway = useCallback(() => {
+  // 3. Buffer Progress Calculation (Visual Buffer Bar)
+  const handleProgress = useCallback(() => {
     const video = videoRef.current;
-    if (!video || !video.buffered.length) return 0;
+    if (!video || !video.buffered.length) return;
 
     try {
-      const cTime = video.currentTime;
-      let forwardSecs = 0;
-      for (let i = 0; i < video.buffered.length; i++) {
-        const start = video.buffered.start(i);
-        const end = video.buffered.end(i);
-        if (start <= cTime + 0.5 && end >= cTime) {
-          forwardSecs = Math.max(0, end - cTime);
-          break;
-        }
-      }
-
-      setBufferRunway(Math.round(forwardSecs * 10) / 10);
-      const pct = Math.min(100, Math.round((forwardSecs / SAFETY_BUFFER_TARGET) * 100));
-      setPrebufferProgress(pct);
-
       const end = video.buffered.end(video.buffered.length - 1);
       setBufferedEnd(end);
-
-      return forwardSecs;
     } catch {
-      return 0;
-    }
-  }, [SAFETY_BUFFER_TARGET]);
-
-  const handleProgress = useCallback(() => {
-    updateBufferRunway();
-  }, [updateBufferRunway]);
-
-  // 3.4 Auto-start / Resume playback once safety runway is loaded
-  useEffect(() => {
-    if (userWantsPlay && isPrebuffering) {
-      const video = videoRef.current;
-      if (video && (bufferRunway >= 3.5 || prebufferProgress >= 70 || video.readyState >= 4)) {
-        video.play().then(() => {
-          setIsPlaying(true);
-          setIsPrebuffering(false);
-          setUserWantsPlay(false);
-          setIsBuffering(false);
-        }).catch((err) => {
-          console.warn("[FirebaseVideoPlayer] Prebuffer play interrupted:", err);
-        });
-      }
-    }
-  }, [userWantsPlay, isPrebuffering, bufferRunway, prebufferProgress]);
-
-  // Bypass prebuffer on user request
-  const handleBypassPreload = useCallback(() => {
-    const video = videoRef.current;
-    if (video) {
-      setIsPrebuffering(false);
-      setUserWantsPlay(false);
-      setIsBuffering(false);
-      video.play().then(() => {
-        setIsPlaying(true);
-      }).catch((e) => console.warn(e));
+      // Ignore boundary read errors
     }
   }, []);
 
-  // 3.5 Debounced Buffering Handler with Recovery Preloader
+  // 3.5 Debounced Buffering Handler
   const handleWaiting = useCallback(() => {
     clearTimeout(bufferingTimeoutRef.current);
     if (videoRef.current && videoRef.current.paused) {
@@ -213,18 +155,13 @@ const FirebaseVideoPlayer = ({
       const vid = videoRef.current;
       if (vid && !vid.paused && vid.readyState < 3) {
         setIsBuffering(true);
-        // Engage recovery preloader to build a 3-second safety runway
-        setIsPrebuffering(true);
-        setUserWantsPlay(true);
       }
-    }, 600);
+    }, 800);
   }, []);
 
   const handlePlaying = useCallback(() => {
     clearTimeout(bufferingTimeoutRef.current);
     setIsBuffering(false);
-    setIsPrebuffering(false);
-    setUserWantsPlay(false);
     setIsLoading(false);
     setIsPlaying(true);
   }, []);
@@ -233,8 +170,7 @@ const FirebaseVideoPlayer = ({
     clearTimeout(bufferingTimeoutRef.current);
     setIsBuffering(false);
     setIsLoading(false);
-    updateBufferRunway();
-  }, [updateBufferRunway]);
+  }, []);
 
   const handlePause = useCallback(() => {
     clearTimeout(bufferingTimeoutRef.current);
@@ -260,36 +196,22 @@ const FirebaseVideoPlayer = ({
     return () => clearInterval(progressIntervalRef.current);
   }, [isPlaying, lessonId, userId]);
 
-  // 5. Play / Pause Toggle with Smart Safety Pre-buffering
+  // 5. Direct Play / Pause Toggle (Instant, zero overlays)
   const togglePlay = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    if (isPlaying) {
+    if (video.paused) {
+      video.play().then(() => {
+        setIsPlaying(true);
+      }).catch((err) => {
+        console.warn("[FirebaseVideoPlayer] Play interrupted:", err);
+      });
+    } else {
       video.pause();
       setIsPlaying(false);
-      setIsPrebuffering(false);
-      setUserWantsPlay(false);
-      setIsBuffering(false);
-    } else {
-      const forward = updateBufferRunway();
-      const nearEnd = video.duration > 0 && (video.duration - video.currentTime < 5);
-
-      // If buffer runway is critically low (< 2.5s) on a normal video, preload first to prevent stutter
-      if (forward < 2.5 && video.readyState < 4 && !nearEnd && video.duration > 10) {
-        setIsPrebuffering(true);
-        setUserWantsPlay(true);
-      } else {
-        setIsPrebuffering(false);
-        setUserWantsPlay(false);
-        video.play().then(() => {
-          setIsPlaying(true);
-        }).catch((err) => {
-          console.warn("Autoplay / Play blocked:", err);
-        });
-      }
     }
-  }, [isPlaying, updateBufferRunway]);
+  }, []);
 
   // 6. Skip Forward / Backward
   const skip = useCallback((seconds) => {
@@ -478,10 +400,7 @@ const FirebaseVideoPlayer = ({
             playsInline
             onClick={togglePlay}
             onTimeUpdate={() => {
-              if (videoRef.current) {
-                setCurrentTime(videoRef.current.currentTime);
-                updateBufferRunway();
-              }
+              if (videoRef.current) setCurrentTime(videoRef.current.currentTime);
             }}
             onLoadedMetadata={handleLoadedMetadata}
             onProgress={handleProgress}
@@ -505,7 +424,6 @@ const FirebaseVideoPlayer = ({
               } else {
                 setIsLoading(false);
                 setIsBuffering(false);
-                setIsPrebuffering(false);
                 setHasError(true);
                 setErrorMessage("Video stream was interrupted. Check your network connection and click retry.");
               }
@@ -572,55 +490,8 @@ const FirebaseVideoPlayer = ({
             </div>
           )}
 
-          {/* SMART STREAM PRELOADER / BUFFER SAFETY RUNWAY OVERLAY */}
-          {isPrebuffering && !hasError && (
-            <div className="absolute inset-0 z-25 flex flex-col items-center justify-center bg-slate-950/85 backdrop-blur-xs text-white px-4 animate-fade-in">
-              <div className="bg-slate-900/95 border border-slate-700/80 rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl space-y-4">
-                <div className="w-12 h-12 mx-auto rounded-full bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500 shadow-inner">
-                  <Zap size={22} className="animate-pulse" />
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-bold text-white tracking-wide">
-                    Pre-buffering Stream
-                  </h4>
-                  <p className="text-xs text-gray-400 mt-1 leading-relaxed">
-                    Loading {SAFETY_BUFFER_TARGET}s safety cushion to guarantee buffer-free playback
-                  </p>
-                </div>
-
-                {/* Progress Bar & Percentage */}
-                <div className="space-y-1.5 text-left">
-                  <div className="flex justify-between items-center text-[11px] font-mono text-gray-300">
-                    <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      Buffer: {bufferRunway.toFixed(1)}s / {SAFETY_BUFFER_TARGET}s
-                    </span>
-                    <span className="font-semibold text-white">{prebufferProgress}%</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
-                    <div
-                      className="h-full bg-linear-to-r from-red-600 via-amber-500 to-emerald-500 rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(239,68,68,0.5)]"
-                      style={{ width: `${Math.max(6, prebufferProgress)}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* Force Play / Bypass */}
-                <div className="pt-1">
-                  <button
-                    onClick={handleBypassPreload}
-                    className="text-[11px] text-gray-400 hover:text-white underline underline-offset-2 transition-colors cursor-pointer"
-                  >
-                    Play immediately (skip pre-buffer)
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* BIG PLAY BUTTON (WHEN PAUSED) */}
-          {!isPlaying && !isLoading && !hasError && !isPrebuffering && (
+          {!isPlaying && !isLoading && !hasError && (
             <div
               onClick={togglePlay}
               className="absolute inset-0 flex items-center justify-center bg-black/30 z-10 cursor-pointer"
@@ -711,25 +582,6 @@ const FirebaseVideoPlayer = ({
                   <span>{formatTime(currentTime)}</span>
                   <span className="text-gray-500 mx-1">/</span>
                   <span className="text-gray-400">{formatTime(duration)}</span>
-                </div>
-
-                {/* BUFFER RUNWAY HEALTH GAUGE */}
-                <div
-                  className="hidden md:flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-900/80 border border-slate-700/60 text-[10px] text-gray-300 shadow-inner ml-2"
-                  title={`Safety Buffer Runway: ${bufferRunway.toFixed(1)} seconds pre-loaded ahead`}
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                      bufferRunway >= 5
-                        ? "bg-emerald-400 shadow-[0_0_8px_#34d399]"
-                        : bufferRunway >= 2.5
-                        ? "bg-amber-400 shadow-[0_0_8px_#fbbf24]"
-                        : "bg-red-400"
-                    }`}
-                  />
-                  <span className="font-mono">
-                    {bufferRunway > 0 ? `${bufferRunway.toFixed(0)}s runway` : "preloading"}
-                  </span>
                 </div>
               </div>
 
