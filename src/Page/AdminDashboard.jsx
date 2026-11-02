@@ -19,14 +19,16 @@ import {
   Bot,
   Sparkles,
   Users,
+  Video,
 } from "lucide-react";
 import { useCallback } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../component/Navbar";
 import AdminChatbotManagement from "../component/AIChatbot/AdminChatbotManagement";
+import AdminVideoManagement from "../component/VideoPlayer/AdminVideoManagement";
 
 const AdminDashboard = () => {
-  const [adminSection, setAdminSection] = useState("users"); // "users" | "chatbot"
+  const [adminSection, setAdminSection] = useState("users"); // "users" | "chatbot" | "videos"
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("pending"); // pending, approved, all
@@ -150,9 +152,25 @@ const AdminDashboard = () => {
                 RAG
               </span>
             </button>
+            <button
+              onClick={() => setAdminSection("videos")}
+              className={`pb-3 px-4 text-sm font-bold transition flex items-center gap-2 border-b-2 cursor-pointer ${
+                adminSection === "videos"
+                  ? "border-red-600 text-red-600"
+                  : "border-transparent text-gray-500 hover:text-slate-800"
+              }`}
+            >
+              <Video size={16} />
+              <span>Video Streaming & Performance</span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-700 font-semibold">
+                FastStart
+              </span>
+            </button>
           </div>
 
-          {adminSection === "chatbot" ? (
+          {adminSection === "videos" ? (
+            <AdminVideoManagement />
+          ) : adminSection === "chatbot" ? (
             <AdminChatbotManagement />
           ) : (
             <>

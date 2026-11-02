@@ -28,6 +28,8 @@ import { useNavigate } from "react-router-dom";
 import Sidebar5, { markLessonComplete } from "./Sidebar5"; // Fixed import path
 import useScrollToBottom from "../../hooks/useScrollToBottom";
 import SpectrumPricingLookup from "./SpectrumPricingLookup";
+import { auth } from "../../firebase-config";
+import FirebaseVideoPlayer from "../VideoPlayer/FirebaseVideoPlayer";
 
 const Day2 = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
@@ -967,16 +969,13 @@ const Day2 = () => {
                 Watch the complete recorded session for Day 2 covering broadband fundamentals, telecom equipment, voice porting, and package bundling before experimenting with the bundle builder below.
               </p>
 
-              <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-xl aspect-video w-full">
-                <video
-                  controls
-                  preload="metadata"
-                  playsInline
-                  className="w-full h-full object-contain"
+              <div className="w-full">
+                <FirebaseVideoPlayer
                   src="https://firebasestorage.googleapis.com/v0/b/vahlay1.appspot.com/o/training_videos%2FDay02mp4.mp4?alt=media&token=de820c89-56d1-487d-9c51-081a6c62c4f3"
-                >
-                  Your browser does not support the video tag.
-                </video>
+                  title="Day 2: Telecom Products & Bundling Walkthrough Video"
+                  lessonId="day2_video"
+                  userId={auth.currentUser?.uid || "guest"}
+                />
               </div>
             </div>
 

@@ -31,6 +31,8 @@ import {
   IMPORTANT_ABBREVIATIONS,
 } from "./Day1AbbreviationsData";
 import useScrollToBottom from "../../hooks/useScrollToBottom";
+import { auth } from "../../firebase-config";
+import FirebaseVideoPlayer from "../VideoPlayer/FirebaseVideoPlayer";
 
 const Day1 = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
@@ -717,16 +719,13 @@ const Day1 = () => {
                 Watch the complete recorded session for Day 1 orientation, workplace expectations, and telecom address standards walkthrough.
               </p>
 
-              <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-xl aspect-video w-full">
-                <video
-                  controls
-                  preload="metadata"
-                  playsInline
-                  className="w-full h-full object-contain"
+              <div className="w-full">
+                <FirebaseVideoPlayer
                   src="https://firebasestorage.googleapis.com/v0/b/vahlay1.appspot.com/o/training_videos%2FDay01_1.mp4?alt=media&token=9daaf233-719f-4383-8a99-b33779eeeaeb"
-                >
-                  Your browser does not support the video tag.
-                </video>
+                  title="Day 1: Orientation & ISP Foundation Training Video"
+                  lessonId="day1_video"
+                  userId={auth.currentUser?.uid || "guest"}
+                />
               </div>
             </div>
 

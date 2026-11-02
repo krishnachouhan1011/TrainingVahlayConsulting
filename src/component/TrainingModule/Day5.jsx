@@ -22,6 +22,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import Sidebar5, { markLessonComplete } from "./Sidebar5";
 import useScrollToBottom from "../../hooks/useScrollToBottom";
+import { auth } from "../../firebase-config";
+import FirebaseVideoPlayer from "../VideoPlayer/FirebaseVideoPlayer";
 
 const Day5 = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
@@ -578,16 +580,13 @@ const Day5 = () => {
                 Watch the complete recorded session for Day 5 communication training and walkthrough.
               </p>
 
-              <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-xl aspect-video w-full">
-                <video
-                  controls
-                  preload="metadata"
-                  playsInline
-                  className="w-full h-full object-contain"
+              <div className="w-full">
+                <FirebaseVideoPlayer
                   src="https://firebasestorage.googleapis.com/v0/b/vahlay1.appspot.com/o/training_videos%2FDay%203.mp4?alt=media&token=3498e8fc-f099-45ad-abf0-28c3bcaf7e24"
-                >
-                  Your browser does not support the video tag.
-                </video>
+                  title="How to deal with Already Cx-Training Video"
+                  lessonId="day5_video"
+                  userId={auth.currentUser?.uid || "guest"}
+                />
               </div>
             </div>
 
