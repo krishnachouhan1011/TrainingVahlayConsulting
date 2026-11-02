@@ -22,9 +22,10 @@ export const TRAINING_VIDEOS = {
     title: "Day 1: Orientation & ISP Foundation Training Video",
     description: "Complete recorded session for Day 1 orientation, workplace expectations, and telecom address standards walkthrough.",
     storagePath: "training_videos/Day01_1.mp4",
-    defaultUrl: "https://firebasestorage.googleapis.com/v0/b/vahlay1.appspot.com/o/training_videos%2FDay01_1.mp4?alt=media&token=9daaf233-719f-4383-8a99-b33779eeeaeb",
+    defaultUrl: "/Day01_optimized.mp4",
+    fallbackUrl: "https://firebasestorage.googleapis.com/v0/b/vahlay1.appspot.com/o/training_videos%2FDay01_1.mp4?alt=media&token=9daaf233-719f-4383-8a99-b33779eeeaeb",
     duration: 541, // ~9 minutes
-    resolution: "1080p",
+    resolution: "720p (FastStart Stream Optimized - 1.28 Mbps)",
     poster: ""
   },
   day2: {
@@ -233,3 +234,4 @@ export const clearPlaybackPosition = (lessonId, userId) => {
     console.error("Error removing playback progress:", e);
   }
 };
+

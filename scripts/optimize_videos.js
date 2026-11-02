@@ -202,3 +202,4 @@ Recommended:
 if (process.argv[1] && process.argv[1].endsWith("optimize_videos.js")) {
   runCli();
 }
+

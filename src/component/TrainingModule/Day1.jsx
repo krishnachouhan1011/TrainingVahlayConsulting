@@ -721,7 +721,8 @@ const Day1 = () => {
 
               <div className="w-full">
                 <FirebaseVideoPlayer
-                  src="https://firebasestorage.googleapis.com/v0/b/vahlay1.appspot.com/o/training_videos%2FDay01_1.mp4?alt=media&token=9daaf233-719f-4383-8a99-b33779eeeaeb"
+                  src="/Day01_optimized.mp4"
+                  fallbackSrc="https://firebasestorage.googleapis.com/v0/b/vahlay1.appspot.com/o/training_videos%2FDay01_1.mp4?alt=media&token=9daaf233-719f-4383-8a99-b33779eeeaeb"
                   title="Day 1: Orientation & ISP Foundation Training Video"
                   lessonId="day1_video"
                   userId={auth.currentUser?.uid || "guest"}

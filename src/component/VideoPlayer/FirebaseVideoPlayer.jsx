@@ -48,6 +48,7 @@ const formatTime = (seconds) => {
  */
 const FirebaseVideoPlayer = ({
   src,
+  fallbackSrc,
   poster,
   title = "Training Session",
   lessonId,
@@ -60,10 +61,16 @@ const FirebaseVideoPlayer = ({
   const videoRef = useRef(null);
   const progressIntervalRef = useRef(null);
   const hideControlsTimeoutRef = useRef(null);
+  const bufferingTimeoutRef = useRef(null);
 
   // Playback States
+  const [activeSrc, setActiveSrc] = useState(src);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    setActiveSrc(src);
+  }, [src]);
   const [duration, setDuration] = useState(0);
   const [bufferedEnd, setBufferedEnd] = useState(0);
   const [volume, setVolume] = useState(1);
@@ -135,6 +142,41 @@ const FirebaseVideoPlayer = ({
     } catch {
       // Ignore boundary read errors
     }
+  }, []);
+
+  // 3.5 Debounced Buffering Handler (Prevents abrupt flashes on micro-frame adjustments)
+  const handleWaiting = useCallback(() => {
+    clearTimeout(bufferingTimeoutRef.current);
+    // Never show buffering if the user has paused the video
+    if (videoRef.current && videoRef.current.paused) {
+      setIsBuffering(false);
+      return;
+    }
+    bufferingTimeoutRef.current = setTimeout(() => {
+      const vid = videoRef.current;
+      if (vid && !vid.paused && vid.readyState < 3) {
+        setIsBuffering(true);
+      }
+    }, 800); // 800ms debounce
+  }, []);
+
+  const handlePlaying = useCallback(() => {
+    clearTimeout(bufferingTimeoutRef.current);
+    setIsBuffering(false);
+    setIsLoading(false);
+    setIsPlaying(true);
+  }, []);
+
+  const handleCanPlay = useCallback(() => {
+    clearTimeout(bufferingTimeoutRef.current);
+    setIsBuffering(false);
+    setIsLoading(false);
+  }, []);
+
+  const handlePause = useCallback(() => {
+    clearTimeout(bufferingTimeoutRef.current);
+    setIsBuffering(false);
+    setIsPlaying(false);
   }, []);
 
   // 4. Save progress periodically
@@ -353,7 +395,7 @@ const FirebaseVideoPlayer = ({
           {/* VIDEO ELEMENT */}
           <video
             ref={videoRef}
-            src={src}
+            src={activeSrc}
             poster={poster}
             preload="metadata"
             playsInline
@@ -363,13 +405,11 @@ const FirebaseVideoPlayer = ({
             }}
             onLoadedMetadata={handleLoadedMetadata}
             onProgress={handleProgress}
-            onWaiting={() => setIsBuffering(true)}
-            onPlaying={() => {
-              setIsPlaying(true);
-              setIsBuffering(false);
-              setIsLoading(false);
-            }}
-            onPause={() => setIsPlaying(false)}
+            onWaiting={handleWaiting}
+            onPlaying={handlePlaying}
+            onCanPlay={handleCanPlay}
+            onSeeked={handleCanPlay}
+            onPause={handlePause}
             onEnded={() => {
               setIsPlaying(false);
               if (lessonId) clearPlaybackPosition(lessonId, userId);
@@ -377,10 +417,17 @@ const FirebaseVideoPlayer = ({
             }}
             onError={(e) => {
               console.error("[FirebaseVideoPlayer] Error loading media:", e);
-              setIsLoading(false);
-              setIsBuffering(false);
-              setHasError(true);
-              setErrorMessage("Video stream was interrupted. Check your network connection and click retry.");
+              if (fallbackSrc && activeSrc !== fallbackSrc) {
+                console.warn("[FirebaseVideoPlayer] Failing over to fallback URL:", fallbackSrc);
+                setActiveSrc(fallbackSrc);
+                setIsLoading(true);
+                setHasError(false);
+              } else {
+                setIsLoading(false);
+                setIsBuffering(false);
+                setHasError(true);
+                setErrorMessage("Video stream was interrupted. Check your network connection and click retry.");
+              }
             }}
             className="w-full h-full object-contain cursor-pointer"
           >
@@ -396,12 +443,12 @@ const FirebaseVideoPlayer = ({
             </div>
           )}
 
-          {/* BUFFERING / WAITING OVERLAY */}
-          {isBuffering && !isLoading && !hasError && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-2xs text-white z-20 pointer-events-none transition-opacity">
-              <div className="flex items-center gap-2 px-3.5 py-1.5 bg-slate-900/90 border border-slate-700/80 rounded-full shadow-lg">
-                <Loader2 className="w-4 h-4 text-red-500 animate-spin" />
-                <span className="text-xs font-medium text-gray-200">Buffering...</span>
+          {/* BUFFERING / WAITING NON-INTRUSIVE BADGE (Only when playing and actually stalled) */}
+          {isBuffering && isPlaying && !isLoading && !hasError && (
+            <div className="absolute top-4 right-4 z-20 pointer-events-none transition-all animate-fade-in">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/95 border border-slate-700/80 rounded-full shadow-xl">
+                <Loader2 className="w-3.5 h-3.5 text-red-500 animate-spin" />
+                <span className="text-[11px] font-medium text-gray-200">Buffering...</span>
               </div>
             </div>
           )}
@@ -588,3 +635,4 @@ const FirebaseVideoPlayer = ({
 };
 
 export default memo(FirebaseVideoPlayer);
+
