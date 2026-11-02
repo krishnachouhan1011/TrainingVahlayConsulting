@@ -1,0 +1,46 @@
+{"id": "Q01", "question": "What is an ISP?", "answer": "Internet Service Provider, a company that provides internet access; some also provide phone, TV and mobile services. *(Day 1)*"}
+{"id": "Q02", "question": "What does the team mainly learn to sell?", "answer": "Spectrum Business services, primarily internet, telephone and TV, according to the trainer. *(Days 1–2)*"}
+{"id": "Q03", "question": "What is the correct US address order?", "answer": "Street address, city, state and ZIP code. *(Day 1)*"}
+{"id": "Q04", "question": "What do St, Ave, Blvd and CA stand for?", "answer": "Street, Avenue, Boulevard and California. *(Day 1)*"}
+{"id": "Q05", "question": "Name the four main contiguous-US time-zone groups taught.", "answer": "Eastern, Central, Mountain and Pacific. Other US time zones and daylight-saving exceptions also exist. *(Day 1)*"}
+{"id": "Q06", "question": "If Eastern time is 5 PM, what is Pacific time in the trainer's example?", "answer": "2 PM (the example assumes the common three-hour offset). *(Day 1)*"}
+{"id": "Q07", "question": "How many digits are in a normal US telephone number?", "answer": "Ten, including a three-digit area code. *(Day 1)*"}
+{"id": "Q08", "question": "What if a person gives only seven digits?", "answer": "Ask for and verify the area code rather than guessing it from the ZIP code. *(Day 1)*"}
+{"id": "Q09", "question": "What is SMB?", "answer": "Small or medium-sized business. *(Day 2)*"}
+{"id": "Q10", "question": "What are the three main internet plans in the recording?", "answer": "Premier, Ultra and Gig. These are historical training examples; confirm current plans. *(Day 2)*"}
+{"id": "Q11", "question": "What are the speeds listed for Premier?", "answer": "Up to 500 Mbps download and 20 Mbps upload in the recorded regular-coax example. *(Day 2)*"}
+{"id": "Q12", "question": "How much did the trainer list for Premier with a router?", "answer": "$50 plan + $10 router = $60 monthly, excluding other charges and only as a training example. *(Day 2)*"}
+{"id": "Q13", "question": "What are the stated Ultra speeds and monthly example?", "answer": "Up to 750/35 Mbps; $80 base plus $10 router = $90 in the recording. *(Day 2)*"}
+{"id": "Q14", "question": "What are the stated Gig speeds and training price?", "answer": "Up to 1,000/50 Mbps, at $100 monthly in the example, with router and installation described as included. Do not promise these as current terms. *(Day 2)*"}
+{"id": "Q15", "question": "Is 2 Gig available everywhere?", "answer": "No; the trainer says availability is location-dependent. The notes give no reliable 2 Gig price. *(Day 2)*"}
+{"id": "Q16", "question": "How many Mbps are in 1 Gbps?", "answer": "1,000 megabits per second. *(Day 2, corrected unit notation)*"}
+{"id": "Q17", "question": "What is the difference between download and upload?", "answer": "Download receives data from the network; upload sends data to the network. *(Day 2 concept)*"}
+{"id": "Q18", "question": "What is symmetric speed?", "answer": "The advertised download and upload speeds are equal. *(Day 2)*"}
+{"id": "Q19", "question": "What is HSC?", "answer": "High Split Coax, an upgrade to coax network capacity that may offer improved upload speeds; location-dependent. *(Day 2)*"}
+{"id": "Q20", "question": "What is HFC?", "answer": "Hybrid Fiber-Coax: fiber and coax combined in the access network. *(Day 2)*"}
+{"id": "Q21", "question": "What is the difference between a modem and router?", "answer": "The modem connects to the provider network; the router manages and distributes local network connectivity. *(Day 2)*"}
+{"id": "Q22", "question": "What is an extender?", "answer": "Equipment intended to extend Wi-Fi coverage. *(Day 2)*"}
+{"id": "Q23", "question": "What is Xumo in the recording?", "answer": "An HDMI-connected streaming device; the trainer says $5 monthly as an example. *(Day 2)*"}
+{"id": "Q24", "question": "What are the two TV formats taught?", "answer": "Streaming TV and cable/set-top-box TV. *(Day 2)*"}
+{"id": "Q25", "question": "What is a PSU?", "answer": "Primary Selling/Service Unit, referring to a main category such as internet, phone or TV in the recording. *(Day 2)*"}
+{"id": "Q26", "question": "Do three telephone lines count as three different PSU categories?", "answer": "No. The recording counts telephone as one category regardless of line count. *(Day 2)*"}
+{"id": "Q27", "question": "What does the trainer's “bundling rule” mean?", "answer": "The discussed program counted two different service categories for a sale. It is not verified as a general Spectrum policy and does not authorize an unwanted add-on. *(Day 2)*"}
+{"id": "Q28", "question": "What does POC stand for?", "answer": "Point of Contact: the authorized person and approved channels for business-account communication. *(Day 3)*"}
+{"id": "Q29", "question": "What is a clear sale?", "answer": "A sale to someone not currently using Spectrum who may switch from another provider. *(Day 3)*"}
+{"id": "Q30", "question": "What does ALC mean in these notes?", "answer": "“Already customer,” or an existing Spectrum customer, as the trainer uses it. *(Day 3)*"}
+{"id": "Q31", "question": "What is triple play?", "answer": "Internet, telephone and TV together. *(Day 3)*"}
+{"id": "Q32", "question": "What is the recorded example price for three phone lines?", "answer": "3 × $20 = $60 per month before other charges, as a historical example. *(Day 3)*"}
+{"id": "Q33", "question": "What is the recorded price exercise for three telephone lines, Premier with router and three static IPs?", "answer": "$60 + $60 + $30 = **$150/month** as a training exercise, before taxes/fees and current availability checks. *(Day 3)*"}
+{"id": "Q34", "question": "Why might a bill increase after a promotional period?", "answer": "A promotional discount may end or change; always check the customer's actual offer and bill. *(Day 3)*"}
+{"id": "Q35", "question": "What does MRC stand for?", "answer": "Monthly Recurring Charge. *(Day 3)*"}
+{"id": "Q36", "question": "What is a chargeback?", "answer": "A commission clawback or penalty for a sale that fails contract conditions. The recording's six-bill/two-times-MRC details require verification. *(Day 3)*"}
+{"id": "Q37", "question": "What is rip-and-replace?", "answer": "Improper replacement of an existing account merely to create a new sale; the training identifies it as a red flag. *(Day 3)*"}
+{"id": "Q38", "question": "What does SOHO mean?", "answer": "Small Office / Home Office; an approval concept for business service at certain residential addresses. *(Day 3)*"}
+{"id": "Q39", "question": "What does PIA mean?", "answer": "Payment in Advance; a potential account-processing requirement that must be verified through approved channels. *(Day 3)*"}
+{"id": "Q40", "question": "What is DA approval?", "answer": "The transcript refers to additional account-processing approval but is inconsistent on the acronym's expansion. Exact meaning/current policy is not confirmed. *(Day 3)*"}
+{"id": "Q41", "question": "What is a second POC?", "answer": "Another genuinely authorized person on the account. It must not be used to disguise a duplicate account or customer identity. *(Day 3)*"}
+{"id": "Q42", "question": "Can a seller guarantee a customer a $50 retention bill?", "answer": "No. This was an example in the recording, not a verified offer. Only an approved quote or retention representative can confirm terms. *(Day 3)*"}
+{"id": "Q43", "question": "Should trainees tell a customer that an old internet service was cancelled if it remains active?", "answer": "No. Clearly disclose every active service, ongoing charge and cancellation status. *(Day 3 compliance caution)*"}
+{"id": "Q44", "question": "Can a representative pretend to be the account holder to negotiate a bill?", "answer": "No. Use authorized representative procedures and genuine customer consent; do not impersonate someone else. *(Day 3 compliance caution)*"}
+{"id": "Q45", "question": "How should a trainee verify whether Spectrum service is available?", "answer": "Use the approved coverage/CRM workflow with the correctly confirmed service address; a training example is not evidence of live availability. *(Day 2)*"}
+{"id": "Q46", "question": "Does this document cover four days?", "answer": "No. Only Day 1, Day 2 and Day 3 are included. *(Source document)*"}

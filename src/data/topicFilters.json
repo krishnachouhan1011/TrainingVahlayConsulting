@@ -1,0 +1,172 @@
+{
+  "topics": [
+    {
+      "id": 1,
+      "name": "Lesson Outcomes",
+      "course": "Spectrum Business",
+      "category": "Introduction"
+    },
+    {
+      "id": 2,
+      "name": "What's changing?",
+      "course": "Spectrum Business",
+      "category": "Overview"
+    },
+    {
+      "id": 3,
+      "name": "Price Guarantees & Bundles",
+      "course": "Spectrum Business",
+      "category": "Overview"
+    },
+    {
+      "id": 4,
+      "name": "Spectrum Mobile Multi-Line Discounts",
+      "course": "Spectrum Business",
+      "category": "Overview"
+    },
+    {
+      "id": 5,
+      "name": "Business Rules",
+      "course": "Spectrum Business",
+      "category": "Business Rules"
+    },
+    {
+      "id": 6,
+      "name": "Acquisition Strategy",
+      "course": "Spectrum Business",
+      "category": "Business Rules"
+    },
+    {
+      "id": 7,
+      "name": "Show What You Know",
+      "course": "Spectrum Business",
+      "category": "Quiz"
+    },
+    {
+      "id": 8,
+      "name": "Congratulations!",
+      "course": "Spectrum Business",
+      "category": "Certificate"
+    },
+    {
+      "id": 9,
+      "name": "Why Spectrum?",
+      "course": "Spectrum Playbook",
+      "category": "Overview"
+    },
+    {
+      "id": 10,
+      "name": "Benefits of Selling Spectrum",
+      "course": "Spectrum Playbook",
+      "category": "Overview"
+    },
+    {
+      "id": 11,
+      "name": "Internet (Opt-Out Law)",
+      "course": "Spectrum Playbook",
+      "category": "Products"
+    },
+    {
+      "id": 12,
+      "name": "Voice",
+      "course": "Spectrum Playbook",
+      "category": "Products"
+    },
+    {
+      "id": 13,
+      "name": "Video",
+      "course": "Spectrum Playbook",
+      "category": "Products"
+    },
+    {
+      "id": 14,
+      "name": "Mobile",
+      "course": "Spectrum Playbook",
+      "category": "Products"
+    },
+    {
+      "id": 15,
+      "name": "Pricing",
+      "course": "Spectrum Playbook",
+      "category": "Offers"
+    },
+    {
+      "id": 16,
+      "name": "Business Rules",
+      "course": "Spectrum Playbook",
+      "category": "Offers"
+    },
+    {
+      "id": 17,
+      "name": "Thank You",
+      "course": "Spectrum Playbook",
+      "category": "Completion"
+    },
+    {
+      "id": 18,
+      "name": "Welcome Aboard",
+      "course": "8-Day Training Program",
+      "category": "Getting Started"
+    },
+    {
+      "id": 19,
+      "name": "How the 8-Day Training Program Works",
+      "course": "8-Day Training Program",
+      "category": "Getting Started"
+    },
+    {
+      "id": 20,
+      "name": "About the Company",
+      "course": "8-Day Training Program",
+      "category": "Company Overview"
+    },
+    {
+      "id": 21,
+      "name": "Day 1",
+      "course": "Training Module by Hansal Kava",
+      "category": "Foundation"
+    },
+    {
+      "id": 22,
+      "name": "Day 2",
+      "course": "Training Module by Hansal Kava",
+      "category": "Foundation"
+    },
+    {
+      "id": 23,
+      "name": "Day 3",
+      "course": "Training Module by Hansal Kava",
+      "category": "Foundation"
+    },
+    {
+      "id": 24,
+      "name": "Day 4",
+      "course": "Training Module by Hansal Kava",
+      "category": "Foundation"
+    },
+    {
+      "id": 25,
+      "name": "Day 5",
+      "course": "Training Module by Hansal Kava",
+      "category": "Advanced Techniques"
+    },
+    {
+      "id": 26,
+      "name": "Day 6",
+      "course": "Training Module by Hansal Kava",
+      "category": "Advanced Techniques"
+    },
+    {
+      "id": 27,
+      "name": "Day 7",
+      "course": "Training Module by Hansal Kava",
+      "category": "Advanced Techniques"
+    },
+    {
+      "id": 28,
+      "name": "Day 8",
+      "course": "Training Module by Hansal Kava",
+      "category": "Advanced Techniques"
+    }
+  ]
+}
